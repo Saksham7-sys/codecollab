@@ -1,8 +1,13 @@
 import express from "express";
-import { getRoomControllerStatus } from "../controllers/roomController.js";
+import {
+  createRoomController,
+  getRoomByRoomIdController,
+} from "../controllers/roomController.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.get("/status", getRoomControllerStatus);
+router.post("/", protect, createRoomController);
+router.get("/:roomId", getRoomByRoomIdController);
 
 export default router;
