@@ -1,5 +1,25 @@
 import mongoose from "mongoose";
 
+const allowedUserSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    approvedAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: false }
+);
+
 const roomSchema = new mongoose.Schema(
   {
     roomId: {
@@ -26,6 +46,7 @@ const roomSchema = new mongoose.Schema(
     language: {
       type: String,
       default: "cpp",
+      trim: true,
     },
     code: {
       type: String,
@@ -34,6 +55,22 @@ const roomSchema = new mongoose.Schema(
     input: {
       type: String,
       default: "",
+    },
+    allowedUsers: {
+      type: [allowedUserSchema],
+      default: [],
+    },
+    isSessionActive: {
+      type: Boolean,
+      default: true,
+    },
+    lastSessionStartedAt: {
+      type: Date,
+      default: Date.now,
+    },
+    lastSessionEndedAt: {
+      type: Date,
+      default: null,
     },
   },
   {
