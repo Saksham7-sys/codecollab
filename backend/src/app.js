@@ -16,7 +16,12 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "CodeCollab Backend is Running 🚀",
+  });
+});
 app.use("/api/health", healthRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/rooms", roomRoutes);

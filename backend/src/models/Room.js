@@ -20,6 +20,49 @@ const allowedUserSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const participantSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    role: {
+      type: String,
+      enum: ["admin", "member"],
+      default: "member",
+    },
+
+    socketId: {
+      type: String,
+      default: "",
+    },
+
+    online: {
+      type: Boolean,
+      default: false,
+    },
+
+    canEdit: {
+      type: Boolean,
+      default: true,
+    },
+
+    joinedAt: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: false }
+);
+
 const roomSchema = new mongoose.Schema(
   {
     roomId: {
@@ -60,6 +103,10 @@ const roomSchema = new mongoose.Schema(
       type: [allowedUserSchema],
       default: [],
     },
+    participants: {
+  type: [participantSchema],
+  default: [],
+},
     isSessionActive: {
       type: Boolean,
       default: true,

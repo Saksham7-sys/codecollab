@@ -4,7 +4,7 @@ import app from "./app.js";
 import connectDB from "./config/db.js";
 import { PORT, CLIENT_URL } from "./config/env.js";
 import initializeSocket from "./sockets/index.js";
-
+import socketAuth from "./middleware/socketAuth.js";
 const startServer = async () => {
   await connectDB();
 
@@ -16,7 +16,7 @@ const startServer = async () => {
       credentials: true,
     },
   });
-
+io.use(socketAuth);
   initializeSocket(io);
 
   server.listen(PORT, () => {

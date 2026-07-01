@@ -1,6 +1,5 @@
-import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../config/env.js";
 
+import verifyToken from "../utils/verifyToken.js";
 export const protect = async (req, res, next) => {
   try {
     let token = null;
@@ -18,11 +17,7 @@ export const protect = async (req, res, next) => {
       });
     }
 
-    const decoded = jwt.verify(token, JWT_SECRET);
-
-    req.user = {
-      userId: decoded.userId,
-    };
+    req.user = verifyToken(token);
 
     next();
   } catch (error) {
